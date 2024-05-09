@@ -685,6 +685,12 @@ Zotero.ZotFile = new function() {
             
             filename = Zotero.File.getValidFileName(filename);
             
+            // if location is '/' or '\', use file's parent directory
+            if(location.trim() == this.folderSep) {
+                //no place to move the file, so rename it in-place
+                this.infoWindow(this.ZFgetString('general.warning'), 'Custom location for files not set. File is renamed only.');
+                location = OS.Path.dirname(origPath);
+            }
             var destPath = OS.Path.join(location, filename);
             var destName = OS.Path.basename(destPath);
 
